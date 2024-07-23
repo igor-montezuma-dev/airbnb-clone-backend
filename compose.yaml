@@ -1,0 +1,10 @@
+services:
+  postgres:
+    image: 'postgres:latest'
+    volumes:
+      - ~/volumes/codecake/postgresql/:/var/lib/postgresql/data
+    environment:
+      - POSTGRES_PASSWORD=admin
+      - POSTGRES_USER=admin
+    ports:
+      - 127.0.0.1:5432:5432

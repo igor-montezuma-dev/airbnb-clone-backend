@@ -1,5 +1,6 @@
 package com.montezumadev.airbnbcloneback.user.domain;
 
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
@@ -11,22 +12,20 @@ import java.io.Serializable;
 import java.util.Objects;
 
 @Entity
-@Table (name = "authority")
+@Table(name = "authority")
 public class Authority implements Serializable {
 
     @NotNull
-    @Size(max = 50)
+    @Size(max=50)
     @Id
     @Column(length = 50)
     private String name;
 
-
-
-    public @NotNull @Size(max = 50) String getName() {
+    public String getName() {
         return name;
     }
 
-    public void setName(@NotNull @Size(max = 50) String name) {
+    public void setName(String name) {
         this.name = name;
     }
 

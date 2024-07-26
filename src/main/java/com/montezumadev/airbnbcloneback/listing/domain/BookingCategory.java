@@ -1,4 +1,4 @@
-package com.montezumadev.airbnbcloneback.listing;
+package com.montezumadev.airbnbcloneback.listing.domain;
 
 public enum BookingCategory {
     ALL,

@@ -1,7 +1,5 @@
 package com.montezumadev.airbnbcloneback.listing.domain;
 
-import com.montezumadev.airbnbcloneback.listing.BookingCategory;
-import com.montezumadev.airbnbcloneback.listing.ListingPicture;
 import com.montezumadev.airbnbcloneback.sharedkernel.domain.AbstractAuditingEntity;
 import jakarta.persistence.CascadeType;
 import jakarta.persistence.Column;
@@ -14,7 +12,6 @@ import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.persistence.Table;
-import org.hibernate.annotations.Type;
 import org.hibernate.annotations.UuidGenerator;
 
 import java.util.HashSet;

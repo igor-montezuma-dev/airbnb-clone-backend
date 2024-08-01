@@ -22,7 +22,7 @@ public class SecurityUtils {
     public static final String ROLE_LANDLORD = "ROLE_LANDLORD";
 
 
-    public static final String CLAIMS_NAMESPACE = "https://montezumadev.com/roles";
+    public static final String CLAIMS_NAMESPACE = "https://www.montezumadev.com/roles";
 
     public static User mapOauth2UserToUser(Map<String, Object> attributes) {
         User user = new User();
@@ -76,12 +76,19 @@ public class SecurityUtils {
         return mapRolesToGrantedAuthorities(getRolesFromClaims(claims));
     }
 
+
     private static Collection<String> getRolesFromClaims(Map<String, Object> claims) {
         return (List<String>) claims.get(CLAIMS_NAMESPACE);
     }
 
     private static List<SimpleGrantedAuthority> mapRolesToGrantedAuthorities(Collection<String> roles) {
-        return roles.stream().filter(role -> role.startsWith("ROLE_")).map(SimpleGrantedAuthority::new).toList();
+        if (roles == null) {
+            return List.of();
+        }
+        return roles.stream()
+                .filter(role -> role.startsWith("ROLE_"))
+                .map(SimpleGrantedAuthority::new)
+                .toList();
     }
 
     public static boolean hasCurrentUserAnyOfAuthorities(String... authorities) {

@@ -30,7 +30,7 @@ public class UserService {
     @Transactional(readOnly = true)
     public ReadUserDTO getAuthenticatedUserFromSecurityContext() {
         OAuth2User principal = (OAuth2User) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-        User user = SecurityUtils.mapOauth2UserToUser(principal.getAttributes());
+        User user = SecurityUtils.mapOauth2AttributesToUser(principal.getAttributes());
         return getByEmail(user.getEmail()).orElseThrow();
     }
 
@@ -42,7 +42,7 @@ public class UserService {
 
     public void syncWithIdp(OAuth2User oAuth2User, boolean forceResync) {
         Map<String, Object> attributes = oAuth2User.getAttributes();
-        User user = SecurityUtils.mapOauth2UserToUser(attributes);
+        User user = SecurityUtils.mapOauth2AttributesToUser(attributes);
         Optional<User> existingUser = userRepository.findOneByEmail(user.getEmail());
         if (existingUser.isPresent()) {
             if (attributes.get(UPDATED_AT_KEY) != null) {
@@ -56,7 +56,6 @@ public class UserService {
                 if (idpModifiedDate.isAfter(lastModifiedDate) || forceResync) {
                     updateUser(user);
                 }
-
             }
         } else {
             userRepository.saveAndFlush(user);
@@ -70,14 +69,15 @@ public class UserService {
             userToUpdate.setEmail(user.getEmail());
             userToUpdate.setFirstName(user.getFirstName());
             userToUpdate.setLastName(user.getLastName());
-            userToUpdate.setImageUrl(user.getImageUrl());
+            userToUpdate.setAuthorities(user.getAuthorities());
             userToUpdate.setImageUrl(user.getImageUrl());
             userRepository.saveAndFlush(userToUpdate);
         }
     }
 
-    public Optional<ReadUserDTO> getByPublicId(UUID publicId){
+    public Optional<ReadUserDTO> getByPublicId(UUID publicId) {
         Optional<User> oneByPublicId = userRepository.findOneByPublicId(publicId);
         return oneByPublicId.map(userMapper::readUserDTOToUser);
     }
 }
+
